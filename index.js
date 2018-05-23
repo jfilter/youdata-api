@@ -36,6 +36,6 @@ app.get('/', (req, res) => {
 getData()
   .then(() => {
     console.log(data.size);
-    app.listen(3000);
+    app.listen(5000);
   })
   .catch(err => console.error(err));
