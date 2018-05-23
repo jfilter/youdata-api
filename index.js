@@ -17,8 +17,11 @@ const getData = async () => {
       try {
         const csvUrl = `${baseUrl}data/${x}.csv`;
         const csvString = await request(csvUrl);
-        const csvData = await csv().fromString(csvString);
-        data[x] = csvData;
+        const csvData = await csv({
+          includeColumns: /(name|email)/,
+        }).fromString(csvString);
+        const filteredData = csvData.filter(row => row.email !== '');
+        data[x] = filteredData;
       } catch (error) {
         console.error(error);
       }
