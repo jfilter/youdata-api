@@ -2,6 +2,7 @@ const express = require('express');
 const csv = require('csvtojson');
 const request = require('request-promise');
 const compression = require('compression');
+const cors = require('cors');
 
 const baseUrl = 'https://rawgit.com/jfilter/youdata-data/master/';
 
@@ -28,6 +29,7 @@ const getData = async () => {
 const app = express();
 
 app.use(compression());
+app.use(cors());
 
 app.get('/', (req, res) => {
   res.json(data);
