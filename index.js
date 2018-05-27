@@ -18,9 +18,17 @@ const getData = async () => {
         const csvUrl = `${baseUrl}data/${x}.csv`;
         const csvString = await request(csvUrl);
         const csvData = await csv({
-          includeColumns: /(name|email)/,
+          includeColumns: /(name|email|state)/,
         }).fromString(csvString);
-        const filteredData = csvData.filter(row => row.email !== '');
+        const filteredData = csvData
+          .filter(
+            row =>
+              row.email !== '' &&
+              (row.state == null || row.state === 'approved')
+          )
+          .map(row => {
+            return { name: row.name, email: row.email };
+          });
         data[x] = filteredData;
       } catch (error) {
         console.error(error);
