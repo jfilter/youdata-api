@@ -3,12 +3,12 @@ const csv = require('csvtojson');
 const request = require('request-promise');
 const compression = require('compression');
 const cors = require('cors');
+const apicache = require('apicache');
 
 const baseUrl = 'https://rawgit.com/jfilter/youdata-data/master/';
 
-const data = {};
-
 const getData = async () => {
+  const data = {};
   const indexEntries = await request(`${baseUrl}index.json`, { json: true });
 
   // forEach should be enough, but map for Promise.all
@@ -26,29 +26,28 @@ const getData = async () => {
               row.email !== '' &&
               (row.state == null || row.state === 'approved')
           )
-          .map(row => {
-            return { name: row.name, email: row.email };
-          });
+          .map(row => ({ name: row.name, email: row.email }));
         data[x] = filteredData;
       } catch (error) {
         console.error(error);
       }
     })
   );
+  return data;
 };
 
 const app = express();
 
+const cache = apicache.middleware;
+
+app.use(cache('60 minutes'));
 app.use(compression());
 app.use(cors());
 
 app.get('/', (req, res) => {
-  res.json(data);
+  getData()
+    .then(data => res.json(data))
+    .catch(err => console.error(err));
 });
 
-getData()
-  .then(() => {
-    console.log(Object.keys(data).length);
-    app.listen(5000);
-  })
-  .catch(err => console.error(err));
+app.listen(5000);

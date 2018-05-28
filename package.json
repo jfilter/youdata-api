@@ -9,6 +9,7 @@
     "start": "node index.js"
   },
   "dependencies": {
+    "apicache": "^1.2.1",
     "compression": "^1.7.2",
     "cors": "^2.8.4",
     "csvtojson": "^2.0.0",

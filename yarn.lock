@@ -58,6 +58,10 @@ ansi-styles@^3.2.1:
   dependencies:
     color-convert "^1.9.0"
 
+apicache@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/apicache/-/apicache-1.2.1.tgz#765cec58aae5f48a9c71007d035f4110aa6fbeaf"
+
 argparse@^1.0.7:
   version "1.0.10"
   resolved "https://registry.yarnpkg.com/argparse/-/argparse-1.0.10.tgz#bcd6791ea5ae09725e17e5ad988134cd40b3d911"
